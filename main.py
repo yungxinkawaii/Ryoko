@@ -1,7 +1,7 @@
 import discord
 import requests
 
-TOKEN = "MTA0MzE1OTk2NjQ5MzcyNDY4Mw.GsmrZH.HMw6-EXWcxDur6yK8LtII1g52FYFSybqXJYEw4"
+TOKEN = "MTA0MzE1OTk2NjQ5MzcyNDY4Mw.GK6aNV.iviPQp7NuQvoV_3RMstiQoy4SuDCgO9IpMkASY"
 INSULT_API = "https://insult.mattbas.org/api/insult"
 
 intents = discord.Intents.default()
