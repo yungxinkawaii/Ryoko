@@ -5,7 +5,7 @@ TOKEN = ""
 
 INSULT_API = "https://evilinsult.com/generate_insult.php?lang=en&type=json"
 INSULT_KEY = "insult"
-PICK_UP_API = "https://getpickuplines.herokuapp.com/lines/random"
+PICK_UP_API = "https://api.jcwyt.com/pickup?type=json"
 PICK_UP_KEY = "line"
 
 intents = discord.Intents.default()
@@ -16,7 +16,10 @@ client = discord.Client(intents=intents)
 
 def get_quote(api_url, key):
     response = requests.get(api_url)
-    return response.json()[key]
+    try: 
+        return response.json()[key]
+    except Exception:
+        return str(response.content, 'UTF-8')
 
 
 @client.event
