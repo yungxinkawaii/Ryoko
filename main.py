@@ -71,7 +71,7 @@ async def on_message(message):
         await message.channel.send(get_quote(BIRYANI_API, BIRYANI_KEY))
     elif any(s in message.content.lower() for s in cat_string_list):
         await message.channel.send(get_quote(CAT_API, CAT_KEY, CAT_API_KEY))
-        await message.channel.send("Here's a cat for you :3")
+        await message.channel.send("Here's a cat pic to cheer you up :3")
     return
 
 client.run(TOKEN)
