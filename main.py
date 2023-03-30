@@ -14,6 +14,12 @@ PICK_UP_API = "https://api.jcwyt.com/pickup?type=json"
 PICK_UP_KEY = "line"
 BIRYANI_API = "https://biriyani.anoram.com/get"
 BIRYANI_KEY = "image"
+CAT_API = "https://api.thecatapi.com/v1/images/search"
+CAT_KEY = "url"
+CAT_API_KEY = os.getenv('CAT_API_KEY')
+
+cat_string_list = ["sad", "upset", "angry", "mad", "depressed", "lonely",
+                   "crying", "cry", "tired", "cat", "cute", "kitty", "kitten", "meow"]
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -21,10 +27,24 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 
-def get_quote(api_url, key):
-    response = requests.get(api_url)
-    try: 
-        return response.json()[key]
+def get_quote(api_url, key, api_key=None):
+    if api_key:
+        # Set the request headers to include the API key
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+
+        # Make the API request
+        response = requests.get(api_url, headers=headers)
+    else:
+        response = requests.get(api_url)
+
+    try:
+        if isinstance(response.json(), list):
+            return response.json()[0][key]
+        else:
+            return response.json()[key]
     except Exception:
         return str(response.content, 'UTF-8')
 
@@ -49,6 +69,9 @@ async def on_message(message):
         await message.channel.send(get_quote(PICK_UP_API, PICK_UP_KEY))
     elif "biryani" in message.content.lower():
         await message.channel.send(get_quote(BIRYANI_API, BIRYANI_KEY))
+    elif any(s in message.content.lower() for s in cat_string_list):
+        await message.channel.send(get_quote(CAT_API, CAT_KEY, CAT_API_KEY))
+        await message.channel.send("Here's a cat for you :3")
     return
 
 client.run(TOKEN)
