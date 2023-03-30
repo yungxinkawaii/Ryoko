@@ -1,12 +1,19 @@
 import discord
 import requests
+from dotenv import load_dotenv
+import os
 
-TOKEN = ""
+load_dotenv()
+TOKEN = os.getenv('TOKEN')
+
+# TOKEN = "MTA0MzE1OTk2NjQ5MzcyNDY4Mw.GHWJjX.ZQ9zoANwUtpNF_kYSGp2Q86C_2IcSLUu90-HTw"
 
 INSULT_API = "https://evilinsult.com/generate_insult.php?lang=en&type=json"
 INSULT_KEY = "insult"
 PICK_UP_API = "https://api.jcwyt.com/pickup?type=json"
 PICK_UP_KEY = "line"
+BIRYANI_API = "https://biriyani.anoram.com/get"
+BIRYANI_KEY = "image"
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -40,6 +47,8 @@ async def on_message(message):
         await message.channel.send(get_quote(INSULT_API, INSULT_KEY))
     elif message.content.startswith('$flirt'):
         await message.channel.send(get_quote(PICK_UP_API, PICK_UP_KEY))
+    elif "biryani" in message.content.lower():
+        await message.channel.send(get_quote(BIRYANI_API, BIRYANI_KEY))
     return
 
 client.run(TOKEN)
